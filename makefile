@@ -16,7 +16,7 @@ QEMUMEM = 512
 QEMUCPU = qemu64
 
 QEMUFLAGS = \
-	-cdrom bin/$(NAME).iso \
+	-cdrom build/$(NAME).iso \
 	-serial stdio \
 	-m $(QEMUMEM) \
 	-cpu $(QEMUCPU) \
@@ -55,8 +55,8 @@ NAME = dusk
 
 .PHONY: all iso test test-extra run run-extra clean cloc reset bear
 
-all: bin/$(NAME).bin
-iso: bin/$(NAME).iso
+all: build/$(NAME).bin
+iso: build/$(NAME).iso
 
 test: 
 	$(MAKE) all
@@ -75,16 +75,16 @@ clean:
 	rm -rf build
 	rm -rf isodir
 
-bin/$(NAME).iso: bin/$(NAME).bin
+build/$(NAME).iso: build/$(NAME).bin
 	mkdir -p isodir/boot/grub
-	cp bin/$(NAME).bin isodir/boot/$(NAME).bin
+	cp build/$(NAME).bin isodir/boot/$(NAME).bin
 	cp grub.cfg isodir/boot/grub/grub.cfg
-	grub-mkrescue -o bin/$(NAME).iso isodir
+	grub-mkrescue -o build/$(NAME).iso isodir
 
-run-extra: bin/$(NAME).iso
+run-extra: build/$(NAME).iso
 	$(QEMU) $(QEMUFLAGS) $(QEMUEXTRAFLAGS)
 
-run: bin/$(NAME).iso
+run: build/$(NAME).iso
 	$(QEMU) $(QEMUFLAGS)
 
 cloc:
@@ -109,6 +109,6 @@ build/%.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-bin/$(NAME).bin: $(OBJ)
-	mkdir -p bin
+build/$(NAME).bin: $(OBJ)
+	mkdir -p build
 	$(CC) -T linker.ld -o $@ $(LDFLAGS) $^
