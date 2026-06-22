@@ -1,12 +1,12 @@
-AS = i686-elf-as
+AS = nasm
 CC = i686-elf-gcc
 
 QEMU = qemu-system-x86_64
 
 SRC_C = $(shell find src -type f -name '*.c')
-SRC_S = $(shell find src -type f -name '*.s')
+SRC_S = $(shell find src -type f -name '*.asm')
 
-OBJ = $(SRC_C:src/%.c=build/%.o) $(SRC_S:src/%.s=build/%.o)
+OBJ = $(SRC_C:src/%.c=build/%.o) $(SRC_S:src/%.asm=build/%.o)
 
 HD     = extras/hd.img
 FORMAT = raw
@@ -25,7 +25,7 @@ QEMUEXTRAFLAGS = \
 	-drive file=$(HD),format=$(FORMAT),if=$(IF) \
 
 ASFLAGS = \
-	--32
+	-f elf32
 
 CFLAGS = \
 	-Iinclude \
@@ -101,7 +101,7 @@ reset:
 	git reset --hard origin/main
 	git clean -fd
 
-build/%.o: src/%.s
+build/%.o: src/%.asm
 	mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) $< -o $@
 
