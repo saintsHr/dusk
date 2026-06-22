@@ -47,6 +47,7 @@ void vga_print(const char* string) {
         if (c == '\n') {
             vga_x = 0;
             vga_y++;
+            continue;
         }
 
         if (vga_x >= VGA_WIDTH) {
