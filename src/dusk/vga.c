@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #define VGA_WIDTH  80
 #define VGA_HEIGHT 25
@@ -62,4 +63,30 @@ void vga_print(const char* string) {
 
         vga_move(vga_x, vga_y);
     }
+}
+
+void vga_clear(void) {
+    for (uint8_t y = 0; y < VGA_HEIGHT; y++) {
+        for (uint8_t x = 0; x < VGA_WIDTH; x++) {
+            vga_put_char(' ', x, y);
+        }
+    }
+}
+
+void vga_cursor_enable(void) {
+    io_outb(0x3D4, 0x0A);
+    uint8_t val = io_inb(0x3D5);
+
+    val &= ~0x20;
+
+    io_outb(0x3D5, val);
+}
+
+void vga_cursor_disable(void) {
+    io_outb(0x3D4, 0x0A);
+    uint8_t val = io_inb(0x3D5);
+
+    val |= 0x20;
+
+    io_outb(0x3D5, val);
 }

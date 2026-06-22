@@ -17,7 +17,7 @@ QEMUCPU = qemu64
 
 QEMUFLAGS = \
 	-cdrom build/$(NAME).iso \
-	-serial stdio \
+	-serial mon:stdio \
 	-m $(QEMUMEM) \
 	-cpu $(QEMUCPU) \
 
