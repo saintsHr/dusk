@@ -1,7 +1,10 @@
 #include "dusk/interrupts/idt.h"
 #include "dusk/interrupts/pic.h"
+#include "dusk/multiboot.h"
 #include "dusk/vga.h"
 #include "dusk/serial.h"
+
+#include <stddef.h>
 #include <stdint.h>
 
 void kpanic(const char* msg) {
@@ -32,7 +35,15 @@ void kinit(void) {
     __asm__ volatile ("sti");
 }
 
-void kmain(void) {
+void kmain(struct multiboot_info* mbi, uint32_t magic) {
+    if (magic != 0x2BADB002) {
+        kpanic("[Boot]: Invalid magic number.");
+    }
+
+    if (mbi == NULL || (uint32_t)mbi < 0x500) {
+        kpanic("[Boot]: Invalid MBI provided.");
+    }
+
     kinit();
 
     vga_move(31, 11);
