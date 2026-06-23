@@ -6,7 +6,9 @@ QEMU = qemu-system-x86_64
 SRC_C = $(shell find src -type f -name '*.c')
 SRC_S = $(shell find src -type f -name '*.asm')
 
-OBJ = $(SRC_C:src/%.c=build/%.o) $(SRC_S:src/%.asm=build/%.o)
+OBJ = \
+	$(SRC_C:src/%.c=build/%.c.o) \
+	$(SRC_S:src/%.asm=build/%.asm.o)
 
 HD     = extras/hd.img
 FORMAT = raw
@@ -31,7 +33,7 @@ CFLAGS = \
 	-Iinclude \
 	-std=gnu99 \
 	-ffreestanding \
-	-O2 \
+	-O0 \
 	-Wall \
 	-Wextra \
 	-m32 \
@@ -101,11 +103,11 @@ reset:
 	git reset --hard origin/main
 	git clean -fd
 
-build/%.o: src/%.asm
+build/%.asm.o: src/%.asm
 	mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) $< -o $@
 
-build/%.o: src/%.c
+build/%.c.o: src/%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
 

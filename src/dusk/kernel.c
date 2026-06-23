@@ -1,3 +1,5 @@
+#include "dusk/interrupts/idt.h"
+#include "dusk/interrupts/pic.h"
 #include "dusk/vga.h"
 #include "dusk/serial.h"
 
@@ -22,7 +24,11 @@ void kpanic(const char* msg) {
 }
 
 void kinit(void) {
+    __asm__ volatile ("cli");
     serial_init();
+    idt_init();
+    pic_remap(0x20, 0x28);
+    __asm__ volatile ("sti");
 }
 
 void kmain(void) {
