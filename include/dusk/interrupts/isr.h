@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 extern void isr0();
 extern void isr1();
 extern void isr2();
@@ -32,3 +34,14 @@ extern void isr28();
 extern void isr29();
 extern void isr30();
 extern void isr31();
+
+struct isr_registers {
+    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+    uint32_t exception;
+    uint32_t error_code;
+    uint32_t eip;
+    uint32_t cs;
+    uint32_t eflags;
+    uint32_t user_esp;
+    uint32_t user_ss;
+} __attribute__((packed));

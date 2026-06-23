@@ -2,6 +2,7 @@
 #include "dusk/interrupts/pic.h"
 #include "dusk/vga.h"
 #include "dusk/serial.h"
+#include <stdint.h>
 
 void kpanic(const char* msg) {
     vga_cursor_disable();

@@ -39,12 +39,14 @@ extern isr_handler
 %macro ISR_NOERR 1
 isr%1:
     cli
-    pushad
     push dword 0
     push dword %1
+    pushad
+    push esp
     call isr_handler
-    add esp, 8
+    add esp, 4
     popad
+    add esp, 8
     iretd
 %endmacro
 
@@ -52,14 +54,13 @@ isr%1:
 %macro ISR_ERR 1
 isr%1:
     cli
-    pushad
-    mov eax, [esp + 32]
-    push eax
     push dword %1
+    pushad
+    push esp
     call isr_handler
-    add esp, 8
-    popad
     add esp, 4
+    popad
+    add esp, 8
     iretd
 %endmacro
 
