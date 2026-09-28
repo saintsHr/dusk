@@ -29,7 +29,9 @@ FLAGS_LD := \
 	-nostdlib -ffreestanding
 
 SRC_C := \
-	$(shell find kernel -name '*.c') $(ARCH_SRC_C)
+	$(shell find kernel -name '*.c') \
+	$(shell find drivers -name '*.c') \
+	$(ARCH_SRC_C)
 SRC_ASM := \
 	$(ARCH_SRC_ASM)
 
