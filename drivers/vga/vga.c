@@ -46,13 +46,7 @@ void vga_disable_cursor(void) {
 
 void vga_move_cursor(vga_index_t index) {
     io_outb(VGA_CRTC_INDEX, VGA_CURSOR_LOW);
-<<<<<<< HEAD
-	io_outb(VGA_CRTC_DATA, (byte_t)(index & 0xFF));
-	io_outb(VGA_CRTC_INDEX, VGA_CURSOR_HIGH);
-	io_outb(VGA_CRTC_DATA, (byte_t)((index >> 8) & 0xFF));
-=======
 	io_outb(VGA_CRTC_DATA, (uint8_t)(index & 0xFF));
 	io_outb(VGA_CRTC_INDEX, VGA_CURSOR_HIGH);
 	io_outb(VGA_CRTC_DATA, (uint8_t)((index >> 8) & 0xFF));
->>>>>>> 119f410 (feat(drivers): finished VGA driver)
 }
