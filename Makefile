@@ -31,6 +31,7 @@ FLAGS_LD := \
 SRC_C := \
 	$(shell find kernel -name '*.c') \
 	$(shell find drivers -name '*.c') \
+	$(shell find lib -name '*.c') \
 	$(ARCH_SRC_C)
 SRC_ASM := \
 	$(ARCH_SRC_ASM)

@@ -1,10 +1,19 @@
 #ifndef DUSK_DRIVERS_VGA_VGA_H
 #define DUSK_DRIVERS_VGA_VGA_H
 
-#include "lib/stdint.h"
+#include "lib/std/stdint.h"
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
+
+#define VGA_CRTC_INDEX 0x3D4
+#define VGA_CRTC_DATA  0x3D5
+
+#define VGA_CURSOR_START 0x0A
+#define VGA_CURSOR_END   0x0B
+#define VGA_CURSOR_LOW   0x0F
+#define VGA_CURSOR_HIGH  0x0E
+#define VGA_CURSOR_DISABLE 0x20
 
 typedef enum {
 	VGA_COLOR_BLACK         = 0x0,
@@ -35,6 +44,11 @@ typedef uint16_t vga_index_t;
 vga_attr_t vga_make_attr(vga_color_t fg, vga_color_t bg);
 vga_cell_t vga_make_cell(vga_attr_t attr, vga_char_t c);
 vga_index_t vga_make_index(vga_coord_t x, vga_coord_t y);
+
+void vga_enable_cursor(void);
+void vga_disable_cursor(void);
+void vga_move_cursor(vga_index_t index);
+
 void vga_set_cell(vga_cell_t cell, vga_index_t index);
 
 #endif

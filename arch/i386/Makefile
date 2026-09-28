@@ -1,4 +1,4 @@
-CROSS := i686-elf-
+CROSS := i386-elf-
 
 ARCH_CC := $(CROSS)gcc
 ARCH_AS := nasm
