@@ -75,7 +75,8 @@ bear:
 		$(MAKE) --no-print-directory ARCH=$(ARCH) -B all
 
 run: $(KERNEL_ISO)
-	$(QEMU) -cdrom $(KERNEL_ISO)
+	@echo "  RUN   $(KERNEL_ISO)"
+	@$(QEMU) -cdrom $(KERNEL_ISO)
 
 clean:
 	@echo "  CLEAN $(BUILD)"
