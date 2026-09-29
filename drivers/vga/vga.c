@@ -34,7 +34,13 @@ vga_index_t vga_make_index(vga_coord_t x, vga_coord_t y) {
 }
 
 void vga_set_cell(vga_cell_t cell, vga_index_t index) {
+    if (index >= VGA_WIDTH * VGA_HEIGHT) return;
     framebuffer[index] = cell;
+}
+
+vga_cell_t vga_get_cell(vga_index_t index) {
+    if (index >= VGA_WIDTH * VGA_HEIGHT) return 0;
+    return framebuffer[index];
 }
 
 void vga_set_cursor(bool state) {

@@ -59,5 +59,6 @@ void vga_set_blink(bool state);
 void vga_init(void);
 
 void vga_set_cell(vga_cell_t cell, vga_index_t index);
+vga_cell_t vga_get_cell(vga_index_t index);
 
 #endif
