@@ -13,5 +13,5 @@ void kernel_main(void) {
 
     console_write_string("Hello, Kernel!");
 
-    while (1) __asm__ __volatile__ ("hlt");
+    while (true) __asm__ __volatile__ ("hlt");
 }
