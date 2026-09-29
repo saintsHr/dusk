@@ -8,11 +8,32 @@ static vga_coord_t console_y = 0;
 static vga_color_t console_fg = VGA_COLOR_LIGHT_GREY;
 static vga_color_t console_bg = VGA_COLOR_BLACK;
 
-static void console_scroll() {
-
+static void console_clear_row(vga_coord_t row) {
+    for (vga_coord_t x = 0; x < VGA_WIDTH; x++) {
+        vga_set_cell(
+            vga_make_cell(
+                vga_make_attr(console_fg, console_bg),
+                (vga_char_t)' '
+            ),
+            vga_make_index(x, row)
+        );
+    }
 }
 
-static void console_new_line() {
+static void console_scroll(void) {
+    for (vga_coord_t y = 1; y < VGA_HEIGHT; y++) {
+        for (vga_coord_t x = 0; x < VGA_WIDTH; x++) {
+            vga_set_cell(
+                vga_get_cell(vga_make_index(x, y)),
+                vga_make_index(x, y - 1)
+            );
+        }
+    }
+
+    console_clear_row(VGA_HEIGHT - 1);
+}
+
+static void console_new_line(void) {
     console_x = 0;
 
     if (console_y >= VGA_HEIGHT - 1) {
@@ -91,15 +112,7 @@ void console_write_string(const char* str) {
 
 void console_clear(void) {
     for (vga_coord_t y = 0; y < VGA_HEIGHT; y++) {
-        for (vga_coord_t x = 0; x < VGA_WIDTH; x++) {
-            vga_set_cell(
-                vga_make_cell(
-                    vga_make_attr(console_fg, console_bg),
-                    (vga_char_t)' '
-                ),
-                vga_make_index(x, y)
-            );
-        }
+        console_clear_row(y);
     }
 }
 

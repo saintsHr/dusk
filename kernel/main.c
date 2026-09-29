@@ -10,8 +10,5 @@ void kernel_init(void) {
 __attribute__((noreturn))
 void kernel_main(void) {
     kernel_init();
-
-    console_write_string("Hello, Kernel!");
-
     while (true) __asm__ __volatile__ ("hlt");
 }
