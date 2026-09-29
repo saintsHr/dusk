@@ -23,7 +23,8 @@ INCLUDE := \
 FLAGS_C := \
 	$(ARCH_FLAGS_C) -ffreestanding -fno-pie \
     -fno-pic -fno-stack-protector -fno-builtin \
-    -Wall -Wextra -O2 -MMD -MP $(INCLUDE)
+    -Wall -Wextra -O2 -MMD -MP $(INCLUDE) \
+    -std=gnu17
 FLAGS_LD := \
 	$(ARCH_FLAGS_LD) -T $(ARCH_SCRIPT_LD) \
 	-nostdlib -ffreestanding
