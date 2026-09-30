@@ -1,16 +1,17 @@
 #include "kernel/main.h"
+#include "arch/i386/gdt/gdt.h"
 #include "drivers/vga/vga.h"
 #include "kernel/console/console.h"
 
 __attribute__((noreturn))
 static void kernel_hang() {
-    __asm__ __volatile__ ("cli");
     while (true) __asm__ __volatile__ ("hlt");
 }
 
 void kernel_init(void) {
     vga_init();
     console_init();
+    gdt_init();
 }
 
 __attribute__((noreturn))
@@ -36,5 +37,10 @@ void kernel_panic(const char* msg) {
 __attribute__((noreturn))
 void kernel_main(void) {
     kernel_init();
+
+    while (true) {
+
+    }
+
     kernel_panic("Kernel returned.");
 }

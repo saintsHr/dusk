@@ -37,7 +37,7 @@ SRC_C := \
 SRC_ASM := \
 	$(ARCH_SRC_ASM)
 
-OBJ := $(SRC_C:%.c=$(BUILD)/%.o) $(SRC_ASM:%.asm=$(BUILD)/%.o)
+OBJ := $(SRC_C:%.c=$(BUILD)/%.c.o) $(SRC_ASM:%.asm=$(BUILD)/%.asm.o)
 DEP := $(OBJ:.o=.d)
 
 KERNEL_ELF := $(BUILD)/$(NAME).elf
@@ -51,12 +51,12 @@ $(KERNEL_ELF): $(OBJ) $(ARCH_SCRIPT_LD)
 	@echo "  LD    $@"
 	@$(CC) $(FLAGS_LD) -o $@ $(OBJ) -lgcc
 
-$(BUILD)/%.o: %.c
+$(BUILD)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	@echo "  CC    $<"
 	@$(CC) $(FLAGS_C) -c $< -o $@
 
-$(BUILD)/%.o: %.asm
+$(BUILD)/%.asm.o: %.asm
 	@mkdir -p $(dir $@)
 	@echo "  AS    $<"
 	@$(AS) $(ARCH_FLAGS_AS) $< -o $@
