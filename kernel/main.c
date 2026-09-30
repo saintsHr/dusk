@@ -12,6 +12,15 @@ void kernel_init(void) {
     vga_init();
     console_init();
     gdt_init();
+
+    console_move(0, 0);
+    console_set_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+    console_write_string("Welcome to ");
+    console_set_color(VGA_COLOR_MAGENTA, VGA_COLOR_BLACK);
+    console_write_string("Dusk");
+    console_set_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+    console_write_string("!");
+    console_move(0, 2);
 }
 
 __attribute__((noreturn))
