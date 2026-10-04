@@ -1,4 +1,5 @@
 #include "arch/i386/gdt/gdt.h"
+#include "arch/i386/util/util.h"
 
 static gdt_entry_t gdt[GDT_ENTRIES];
 
@@ -20,11 +21,11 @@ gdt_entry_t gdt_create_entry(uint32_t base, uint32_t limit, uint8_t access, uint
     return entry;
 }
 
-gdt_register_t gdt_create_register(gdt_entry_t *table, usize_t size) {
+gdt_register_t gdt_create_register(gdt_entry_t *table, usize_t count) {
     gdt_register_t reg = {0};
 
-    reg.size = (uint16_t)(size * sizeof(gdt_entry_t) - 1);
-    reg.offset = (uint32_t)table;
+    reg.size = (uint16_t)(count * sizeof(gdt_entry_t) - 1);
+    reg.offset = (uint32_t)(uintptr_t)table;
 
     return reg;
 }
@@ -36,7 +37,7 @@ void gdt_set_entry(gdt_entry_t entry, usize_t num) {
 
 void gdt_set_register(gdt_register_t reg) {
     __asm__ __volatile__ ("lgdt %0" : : "m"(reg) : "memory");
-    gdt_flush();
+    flush_seg_regs();
 }
 
 void gdt_init(void) {
@@ -46,11 +47,11 @@ void gdt_init(void) {
     gdt_entry_t user_code = gdt_create_entry(0x00000000, 0xFFFFF, 0xFB, 0xC);
     gdt_entry_t user_data = gdt_create_entry(0x00000000, 0xFFFFF, 0xF3, 0xC);
 
-    gdt_set_entry(null, 0);
-    gdt_set_entry(kernel_code, 1);
-    gdt_set_entry(kernel_data, 2);
-    gdt_set_entry(user_code, 3);
-    gdt_set_entry(user_data, 4);
+    gdt_set_entry(null, GDT_NULL_INDEX);
+    gdt_set_entry(kernel_code, GDT_KERNEL_CODE_INDEX);
+    gdt_set_entry(kernel_data, GDT_KERNEL_DATA_INDEX);
+    gdt_set_entry(user_code, GDT_USER_CODE_INDEX);
+    gdt_set_entry(user_data, GDT_USER_DATA_INDEX);
 
     gdt_register_t reg = gdt_create_register(gdt, GDT_ENTRIES);
 

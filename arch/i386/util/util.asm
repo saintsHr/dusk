@@ -1,10 +1,10 @@
 bits 32
 
-global gdt_flush
+global flush_seg_regs
 
 section .text
 
-gdt_flush:
+flush_seg_regs:
     mov ax, 0x10
     mov ds, ax
     mov es, ax

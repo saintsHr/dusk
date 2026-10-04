@@ -1,5 +1,6 @@
 #include "kernel/main.h"
 #include "arch/i386/gdt/gdt.h"
+#include "arch/i386/idt/idt.h"
 #include "drivers/vga/vga.h"
 #include "kernel/console/console.h"
 
@@ -9,9 +10,12 @@ static void kernel_hang() {
 }
 
 void kernel_init(void) {
+    __asm__ __volatile__ ("cli");
+
     vga_init();
     console_init();
     gdt_init();
+    idt_init();
 
     console_move(0, 0);
     console_set_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
@@ -21,6 +25,8 @@ void kernel_init(void) {
     console_set_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
     console_write_string("!");
     console_move(0, 2);
+
+    // __asm__ __volatile__ ("sti");
 }
 
 __attribute__((noreturn))

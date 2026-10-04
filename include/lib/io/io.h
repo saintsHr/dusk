@@ -8,5 +8,6 @@ typedef uint16_t io_port_t;
 
 io_value_t io_inb(io_port_t port);
 void io_outb(io_port_t port, io_value_t value);
+void io_wait(void);
 
 #endif
