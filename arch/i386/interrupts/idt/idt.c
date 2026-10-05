@@ -1,6 +1,6 @@
-#include "arch/i386/idt/idt.h"
+#include "arch/i386/interrupts/idt/idt.h"
+#include "arch/i386/interrupts/isr/isr.h"
 #include "arch/i386/gdt/gdt.h"
-#include "arch/i386/isr/isr.h"
 #include "lib/std/stdint.h"
 
 static idt_entry_t idt[IDT_ENTRIES] = {0};

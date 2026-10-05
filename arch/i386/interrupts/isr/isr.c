@@ -1,4 +1,4 @@
-#include "arch/i386/isr/isr.h"
+#include "arch/i386/interrupts/isr/isr.h"
 #include "kernel/main.h"
 #include "lib/std/stddef.h"
 
