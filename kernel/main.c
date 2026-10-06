@@ -1,6 +1,6 @@
 #include "kernel/main.h"
-#include "drivers/vga/vga.h"
 #include "kernel/console/console.h"
+#include "drivers/vga/vga.h"
 #include "lib/std/stddef.h"
 
 __attribute__((noreturn))

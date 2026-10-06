@@ -2,6 +2,20 @@
 #include "lib/io/io.h"
 #include "lib/std/stdint.h"
 
+#define VGA_CRTC_INDEX 0x3D4
+#define VGA_CRTC_DATA  0x3D5
+
+#define VGA_CURSOR_START 0x0A
+#define VGA_CURSOR_END   0x0B
+#define VGA_CURSOR_LOW   0x0F
+#define VGA_CURSOR_HIGH  0x0E
+#define VGA_CURSOR_DISABLE 0x20
+
+#define VGA_AC_INDEX 0x3C0
+#define VGA_AC_READ 0x3C1
+#define VGA_AC_MODE_CONTROL 0x10
+#define VGA_AC_ENABLE 0x20
+
 static volatile vga_cell_t *const framebuffer = (volatile vga_cell_t *)0xB8000;
 
 static uint8_t vga_read_mode_control(void) {

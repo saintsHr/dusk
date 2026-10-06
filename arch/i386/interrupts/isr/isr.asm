@@ -36,6 +36,7 @@ isr_common:
     mov gs, ax
 
     push esp
+    cld
     call isr_handler
     add esp, 4
 

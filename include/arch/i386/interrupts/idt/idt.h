@@ -3,8 +3,6 @@
 
 #include "lib/std/stdint.h"
 
-#define IDT_ENTRIES 256
-
 typedef struct {
     uint16_t offset_low;
     uint16_t selector;

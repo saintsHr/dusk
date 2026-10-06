@@ -3,6 +3,8 @@
 #include "arch/i386/gdt/gdt.h"
 #include "lib/std/stdint.h"
 
+#define IDT_ENTRIES 256
+
 static idt_entry_t idt[IDT_ENTRIES] = {0};
 
 idt_entry_t idt_create_entry(uintptr_t offset, uint16_t selector, uint8_t type, uint8_t present, uint8_t dpl) {
@@ -36,16 +38,6 @@ void idt_set_register(idt_register_t reg) {
 }
 
 void idt_init(void) {
-    for (usize_t i = 0; i < ISR_EXCEPTIONS_COUNT; i++) {
-        idt_entry_t entry = idt_create_entry(
-            (uintptr_t)isr_stubs[i],
-            GDT_KERNEL_CODE_INDEX * 8,
-            0xE, 0x1, 0x0
-        );
-
-        idt_set_entry(entry, i);
-    }
-
     idt_register_t reg = idt_create_register(idt, IDT_ENTRIES);
     idt_set_register(reg);
 }
